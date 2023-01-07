@@ -1465,3 +1465,19 @@ def directional_probability_index(data, lookback, open_column, close, position):
     data = delete_column(data, position, 2)
     
     return data
+
+# Example of a signal function on a moving average Cross (To be used in case of a moving average crossover strategy) on OHLC array
+def signal_MA_crossover(data, close, ma_col, buy, sell):
+     
+     data = add_column(data, 2)
+     
+     for i in range(len(data)):
+          
+          if data[i, close] > data[i, ma_col] and data[i - 1, close] < data[i - 1, ma_col]:
+               
+               data[i + 1, buy] = 1
+          if data[i, close] < data[i, ma_col] and data[i - 1, close] > data[i - 1, ma_col]:
+               
+               data[i + 1, sell] = -1
+     
+     return data
